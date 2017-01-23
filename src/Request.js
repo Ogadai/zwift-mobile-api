@@ -29,9 +29,6 @@ class Request {
                 .then(function (response) {
                     return response.data;
                 })
-                    .catch(function (response) {
-                        console.error(response);
-                    })
             });
     }
 }
