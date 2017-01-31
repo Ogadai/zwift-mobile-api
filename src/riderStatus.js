@@ -33,6 +33,14 @@ export default function riderStatus(buffer) {
                         type: "int32",
                         id: 24
                     },
+                    x: {
+                        type: "float",
+                        id: 25
+                    },
+                    y: {
+                        type: "float",
+                        id: 27
+                    },
                     f4: {
                         type: "int32",
                         id: 4
