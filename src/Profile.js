@@ -18,6 +18,10 @@ class Profile {
   followees() {
     return this.request.json(`/api/profiles/${this.id}/followees`);
   }
+
+  activities(start, limit) {
+    return this.request.json(`/api/profiles/${this.id}/activities?start=${start || 0}&limit=${limit || 10}`);
+  }
 }
 
 export default Profile;

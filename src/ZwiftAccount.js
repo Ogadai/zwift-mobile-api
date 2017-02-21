@@ -2,6 +2,7 @@
 import Profile from './Profile'
 import World from './World'
 import Request from './Request';
+import Activity from './Activity';
 
 const TOKEN_REFRESH_MS = 30000;
 
@@ -23,6 +24,10 @@ class ZwiftAccount {
 
     getWorld(worldId) {
         return new World(worldId, this.getAccessToken);
+    }
+
+    getActivity(playerId) {
+      return new Activity(playerId, this.getAccessToken);
     }
 
     getRequest() {
