@@ -10,6 +10,10 @@ class Activity {
     this.request = new Request(tokenFn);
   }
 
+  list() {
+    return this.request.json(`/api/profiles/${this.id}/activities`);
+  }
+
   get(activityId) {
     return this.getActivity(activityId)
       .then(activityData => {
@@ -58,6 +62,7 @@ class Activity {
 
   processFitData(activityData, fitData) {
     const { worldId, name } = activityData;
+    const { firstName, lastName } = activityData.profile;
     const records = fitData.records;
 
     const positions = records
@@ -67,6 +72,8 @@ class Activity {
     return {
       worldId,
       name,
+      firstName,
+      lastName,
       positions
     };
   }
