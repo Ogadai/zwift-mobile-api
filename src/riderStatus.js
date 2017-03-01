@@ -17,6 +17,10 @@ export default function riderStatus(buffer) {
                         type: "int32",
                         id: 6
                     },
+                    heartrate: {
+                        type: "int32",
+                        id: 11
+                    },
                     power: {
                         type: "int32",
                         id: 12
@@ -36,6 +40,10 @@ export default function riderStatus(buffer) {
                     x: {
                         type: "float",
                         id: 25
+                    },
+                    altitude: {
+                        type: "float",
+                        id: 26
                     },
                     y: {
                         type: "float",
