@@ -4,7 +4,7 @@ import World from './World'
 import Request from './Request';
 import Activity from './Activity';
 
-const TOKEN_REFRESH_MS = 30000;
+const TOKEN_REFRESH_MS = 10 * 60 * 1000;
 
 class ZwiftAccount {
 
@@ -12,7 +12,7 @@ class ZwiftAccount {
         this.username = username;
         this.password = password;
 
-        this.authToken = null;
+        this.tokenPromise = null;
         this.tokenDate = null;
 
         this.getAccessToken = this.getAccessToken.bind(this)
@@ -35,19 +35,12 @@ class ZwiftAccount {
     }
 
     getAccessToken() {
-        if (this.authToken && (new Date().getTime() - this.tokenDate.getTime() < TOKEN_REFRESH_MS)) {
-            return new Promise(resolve => {
-                resolve(this.authToken);
-            });
+        if (!this.tokenPromise || (new Date().getTime() - this.tokenDate.getTime() > TOKEN_REFRESH_MS)) {
+            this.tokenDate = new Date();
+            this.tokenPromise = getAccessToken(this.username, this.password);
         }
 
-        return getAccessToken(this.username, this.password)
-            .then(token => {
-                this.authToken = token;
-                this.tokenDate = new Date();
-
-                return token;
-            });
+        return this.tokenPromise;
     }
 }
 
