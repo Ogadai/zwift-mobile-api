@@ -19,13 +19,23 @@ var account = new ZwiftAccount(username, password);
 // Access profile related data
 var profile = account.getProfile();
 
-var myProfile = profile.profile(); // JSON of rider profile
-var followers = profile.followers(); // JSON array of rider's followers
-var followees = profile.followees(); // JSON array of rider's followees
+profile.profile().then(p => {
+    console.log(p);  // JSON of rider profile
+});
+
+profile.followers().then(followes => {
+    console.log(followes); // JSON array of rider's followers
+});
+
+profile.followees().then(followees => {
+    console.log(followees); // JSON array of rider's followees
+});
 
 // Get the list of previous activities 
 // (start, limit parameters for paging - e.g. (0,30) for first 30 activities)
-var activities = profile.activities(start, limit);
+profile.activities(start, limit).then(activities => {
+    console.log(activities); // JSON array of activities
+});
 
 // ****************************
 // Access world related data
@@ -35,14 +45,20 @@ var activities = profile.activities(start, limit);
 
 var world = profile.getWorld(1);
 
-var riders = world.riders(); // JSON array of all riders currently riding
+world.riders().then(riders => {
+    console.log(riders); // JSON array of all riders currently riding
+});
 
 // Get the status of the specified rider
 // (includes x,y position, speed, power, etc)
-var status = world.riderStatus(playerId);
+world.riderStatus(playerId).then(status => {
+    console.log(status); // JSON of rider status
+});
 
 // Get full position data for an activity from FIT file
 // (translated back into Zwift world coordinates)
-var activity = account.getActivity(playerId).get(activityId);
+account.getActivity(playerId).get(activityId).then(activity => {
+    console.log(activity); // JSON of activity including positions
+});
 
 ```
