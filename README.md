@@ -17,14 +17,17 @@ var account = new ZwiftAccount(username, password);
 
 // ****************************
 // Access profile related data
-var profile = account.getProfile();
 
-profile.profile().then(p => {
-    console.log(p);  // JSON of rider profile
+// Get profile for "me"
+account.getProfile().profile().then(p => {
+    console.log(p);  // JSON of rider profile (includes id property you can use below)
 });
 
-profile.followers().then(followes => {
-    console.log(followes); // JSON array of rider's followers
+// Get profile data for a particular rider (requires Zwift player id)
+var profile = account.getProfile(playerId);
+
+profile.followers().then(followers => {
+    console.log(followers); // JSON array of rider's followers
 });
 
 profile.followees().then(followees => {
@@ -43,7 +46,7 @@ profile.activities(start, limit).then(activities => {
 // (note: currently all riders are listed in world '1',
 // so worlds 2 and 3 are empty no matter the schedule)
 
-var world = profile.getWorld(1);
+var world = account.getWorld(1);
 
 world.riders().then(riders => {
     console.log(riders); // JSON array of all riders currently riding
