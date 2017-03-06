@@ -7,7 +7,8 @@ const DEFAULT_HEADERS = {
     "User-Agent": "Zwift/115 CFNetwork/758.0.2 Darwin/15.0.0"
 };
 
-const _queue = new Queue(5, 1000);
+const RATE_LIMIT = process.env.ZwiftRateLimit || 5;
+const _queue = new Queue(RATE_LIMIT);
 
 class Request {
     constructor(tokenFn) {
