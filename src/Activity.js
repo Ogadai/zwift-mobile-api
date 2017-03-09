@@ -4,6 +4,8 @@ import EasyFit from 'easy-fit';
 import Request from './Request';
 import mapLatLong from './mapLatLong';
 
+const FILTER_FREQ = 5;
+
 class Activity {
   constructor(id, tokenFn) {
     this.id = id;
@@ -66,7 +68,7 @@ class Activity {
     const records = fitData.records;
 
     const positions = records
-      .filter((r, i) => i % 3 === 1)
+      .filter((r, i) => i % FILTER_FREQ === 1)
       .map(r => this.processFitRecord(worldId, r));
 
     return {
@@ -83,12 +85,12 @@ class Activity {
     const position = this.mapPosition(worldId, position_lat, position_long);
 
     return {
-      time: elapsed_time,
-      x: position.x,
-      y: position.y,
-      speed,
-      power,
-      cadence
+      time: Math.round(elapsed_time),
+      x: Math.round(position.x),
+      y: Math.round(position.y),
+      speed: Math.round(speed * 10) / 10,
+      power: Math.round(power),
+      cadence: Math.round(cadence)
     };
   }
 
