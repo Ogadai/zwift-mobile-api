@@ -1,5 +1,5 @@
 
-const QUEUE_LIMIT = 10;
+const QUEUE_LIMIT_RATIO = 2;
 
 class Queue {
     constructor(rateLimit, ratePeriod = 1000) {
@@ -13,7 +13,7 @@ class Queue {
 
     add() {
         return new Promise((resolve, reject) => {
-            if (this.queue.length >= QUEUE_LIMIT) {
+            if (this.queue.length >= (this.rateLimit * QUEUE_LIMIT_RATIO)) {
                 reject({ response: { status: 500, statusText: 'Too many requests queued' } });
                 return;
             }
