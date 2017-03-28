@@ -1,5 +1,5 @@
 
-const QUEUE_LIMIT_RATIO = 2;
+const QUEUE_LIMIT_RATIO = 4;
 
 class Queue {
     constructor(rateLimit, ratePeriod = 1000) {
