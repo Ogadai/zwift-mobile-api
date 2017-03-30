@@ -18,7 +18,22 @@ class World {
 
         return this.request.protobuf(`/relay/worlds/${this.worldId}/players/${playerId}`)
             .then(buffer => {
-                return riderStatus(buffer);
+                return new Promise((resolve, reject) => {
+                    try {
+                        const status = riderStatus(buffer);
+                        resolve(status);
+                    } catch(ex) {
+                        console.log(`Error decoding protobuf riderStatus - ${ex.message}`)
+                        console.log(ex)
+
+                        reject({
+                            response: {
+                                status: 500,
+                                statusText: ex.message
+                            }
+                        });
+                    }
+                })
             });
     }
 }
