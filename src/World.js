@@ -36,6 +36,28 @@ class World {
                 })
             });
     }
+
+    sendRideOn(myId, theirId, firstName, lastName) {
+        const data = {
+            f2: 1,
+            f3: 4,
+            attributeMessage: {
+                myId,
+                theirId,
+                firstName,
+                lastName,
+                f5: 826
+            },
+            theirId,
+            f13: 60
+        };
+
+        return this.request.post(
+            `/relay/worlds/${this.worldId}/attributes`,
+            data,
+            'application/x-protobuf-lite',
+            'arraybuffer');
+    }
 }
 
 export default World;

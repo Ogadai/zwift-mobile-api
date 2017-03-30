@@ -24,21 +24,35 @@ class Request {
     }
 
     request(url, acceptType, responseType) {
+        return this.send(url, 'get', null, acceptType, responseType)
+    }
+
+    post(url, data, acceptType, responseType) {
+        return this.send(url, 'post', data, acceptType, responseType)
+    }
+
+    send(url, method, data, acceptType, responseType) {
         return _queue.add().then(() => {
             return this.tokenFn().then(token => {
-                return axios.get(url, {
-                    baseURL: 'https://us-or-rly101.zwift.com',
-                    headers: Object.assign({}, DEFAULT_HEADERS, {
-                        "Accept": acceptType,
-                        "Authorization": "Bearer " + token
-                    }),
-                    responseType
-                })
-                .then(function (response) {
-                    return response.data;
-                })
+                return axios(Object.assign(
+                        { method, url, data },
+                        this.config(acceptType, responseType, token)))
+                    .then(function (response) {
+                        return response.data;
+                    });
             });
         });
+    }
+
+    config(acceptType, responseType, token) {
+        return {
+            baseURL: 'https://us-or-rly101.zwift.com',
+            headers: Object.assign({}, DEFAULT_HEADERS, {
+                "Accept": acceptType,
+                "Authorization": "Bearer " + token
+            }),
+            responseType
+        };
     }
 }
 
