@@ -3,6 +3,37 @@ import protobuf from 'protobufjs';
 
 const extraVariables = ['roadID', 'rideOns', 'isTurning', 'isForward', 'cadence'];
 
+const proto = `syntax=\"proto3\";
+    message Status {
+        int32 id = 1;
+        int64 worldTime = 2;
+        int32 distance = 3;
+        int32 roadTime = 4;
+        int32 speed = 6;
+        int32 roadPosition = 8;
+        int32 cadenceUHz = 9;
+        int32 heartrate = 11;
+        int32 power = 12;
+        int32 heading = 13;
+        int32 lean = 14;
+        int32 climbing = 15;
+        int32 time = 16;
+        int32 f19 = 19;
+        int32 f20 = 20;
+        int32 f21 = 21;
+        int64 customisationId = 22;
+        int32 justWatching = 23;
+        int32 calories = 24;
+        float x = 25;
+        float altitude = 26;
+        float y = 27;
+        int32 watchingRiderId = 28;
+        int32 groupId = 29;
+        int64 f31 = 31;
+    }`;
+const root = protobuf.parse(proto, { keepCase: true }).root;
+const Status = root.lookup("Status");
+
 class PlayerStateWrapper {
     constructor(state) {
         this.riderStatus = state;
@@ -73,115 +104,5 @@ class PlayerStateHandler {
 }
 
 export default function riderStatus(buffer) {
-    var root = protobuf.Root.fromJSON({
-        nested: {
-            Status: {
-                fields: {
-                    id: {
-                        type: "int32",
-                        id: 1
-                    },
-                    worldTime: {
-                        type: "int64",
-                        id: 2,
-                    },
-                    distance: {
-                        type: "int32",
-                        id: 3
-                    },
-                    roadTime: {
-                        type: "int32",
-                        id: 4,
-                    },
-                    speed: {
-                        type: "int32",
-                        id: 6
-                    },
-                    roadPosition: {
-                        type: "int32",
-                        id: 8,
-                    },
-                    cadenceUHz: {
-                        type: "int32",
-                        id: 9
-                    },
-                    heartrate: {
-                        type: "int32",
-                        id: 11
-                    },
-                    power: {
-                        type: "int32",
-                        id: 12
-                    },
-                    heading: {
-                        type: "int32",
-                        id: 13
-                    },
-                    lean: {
-                        type: "int32",
-                        id: 14
-                    },
-                    climbing: {
-                        type: "int32",
-                        id: 15
-                    },
-                    time: {
-                        type: "int32",
-                        id: 16
-                    },
-                    f19: {
-                        type: "int32",
-                        id: 19
-                    },
-                    f20: {
-                        type: "int32",
-                        id: 20
-                    },
-                    f21: {
-                        type: "int32",
-                        id: 21
-                    },
-                    customisationId: {
-                        type: "int64",
-                        id: 22,
-                    },
-                    justWatching: {
-                        type: "int32",
-                        id: 23,
-                    },
-                    calories: {
-                        type: "int32",
-                        id: 24,
-                    },
-                    x: {
-                        type: "float",
-                        id: 25
-                    },
-                    altitude: {
-                        type: "float",
-                        id: 26
-                    },
-                    y: {
-                        type: "float",
-                        id: 27
-                    },
-                    watchingRiderId: {
-                        type: "int32",
-                        id: 28,
-                    },
-                    groupId: {
-                        type: "int32",
-                        id: 29,
-                    },
-                    f31: {
-                      type: "int64",
-                      id: 31,
-                    },
-                }
-            }
-        }
-    });
-
-    var Status = root.lookup("Status");
     return new Proxy(Status.decode(buffer), new PlayerStateHandler());
 };
