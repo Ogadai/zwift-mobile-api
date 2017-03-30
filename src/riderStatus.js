@@ -114,7 +114,7 @@ export default function riderStatus(buffer) {
                         id: 12
                     },
                     heading: {
-                        type: "int32",
+                        type: "int64",
                         id: 13
                     },
                     lean: {
