@@ -14,7 +14,7 @@ const proto = `syntax=\"proto3\";
         int32 cadenceUHz = 9;
         int32 heartrate = 11;
         int32 power = 12;
-        int32 heading = 13;
+        int64 heading = 13;
         int32 lean = 14;
         int32 climbing = 15;
         int32 time = 16;
