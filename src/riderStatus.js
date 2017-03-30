@@ -142,7 +142,7 @@ export default function riderStatus(buffer) {
                         id: 21
                     },
                     customisationId: {
-                        type: "int32",
+                        type: "int64",
                         id: 22,
                     },
                     justWatching: {
@@ -174,7 +174,7 @@ export default function riderStatus(buffer) {
                         id: 29,
                     },
                     f31: {
-                      type: "int32",
+                      type: "int64",
                       id: 31,
                     },
                 }
