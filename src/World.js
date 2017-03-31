@@ -37,7 +37,7 @@ class World {
             });
     }
 
-    sendRideOn(myId, theirId, firstName, lastName) {
+    sendRideOn(myId, theirId, firstName, lastName, countryCode) {
         const data = {
             f2: 1,
             f3: 4,
@@ -46,7 +46,7 @@ class World {
                 theirId,
                 firstName,
                 lastName,
-                f5: 826
+                countryCode
             },
             theirId,
             f13: 60

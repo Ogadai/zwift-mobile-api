@@ -9,7 +9,7 @@ const proto = `syntax=\"proto3\";
             int32 theirId = 2;
             string firstName = 3;
             string lastName = 4;
-            int32 f5 = 5;
+            int32 countryCode = 5;
         }
         AttributeMessage attributeMessage = 4;
         int32 theirId = 10;
