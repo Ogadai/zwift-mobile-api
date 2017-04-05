@@ -1,5 +1,5 @@
 ﻿import Request from './Request';
-import riderStatus from './riderStatus'
+import { riderStatus } from './riderStatus';
 
 class World {
     constructor(worldId, tokenFn) {

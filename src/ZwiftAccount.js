@@ -3,10 +3,19 @@ import Profile from './Profile'
 import World from './World'
 import Request from './Request';
 import Activity from './Activity';
+import { root, wrappedStatus } from './riderStatus';
 
 const TOKEN_REFRESH_MS = 10 * 60 * 1000;
 
 class ZwiftAccount {
+
+    static getZwiftProtocolRoot() {
+        return root;
+    }
+
+    static wrappedStatus(status) {
+        return wrappedStatus(status);
+    }
 
     constructor(username, password) {
         this.username = username;

@@ -1,10 +1,8 @@
 /* eslint-disable indent */
 import protobuf from 'protobufjs';
 
-const extraVariables = ['roadID', 'rideOns', 'isTurning', 'isForward', 'cadence'];
-
-const proto = `syntax=\"proto3\";
-    message Status {
+const proto = `syntax="proto3";
+    message PlayerState {
         int32 id = 1;
         int64 worldTime = 2;
         int32 distance = 3;
@@ -30,9 +28,73 @@ const proto = `syntax=\"proto3\";
         int32 watchingRiderId = 28;
         int32 groupId = 29;
         int64 f31 = 31;
-    }`;
-const root = protobuf.parse(proto, { keepCase: true }).root;
-const Status = root.lookup("Status");
+    }
+    message ClientToServer {
+        int32 connected = 1;
+        int32 rider_id = 2;
+        int64 world_time = 3;
+        PlayerState state = 7;
+        int32 seqno = 4;
+        int64 tag8 = 8;
+        int64 tag9 = 9;
+        int64 last_update = 10;
+        int64 tag11 = 11;
+        int64 last_player_update = 12;
+    }
+    
+    message UnknownMessage1 {
+        // string firstName=7;
+        // string lastName=8;
+        // string timestamp=17;
+    }
+    
+    message UnknownMessage {
+        // int64 tag1=1;
+        // UnknownMessage1 tag4=4;
+    }
+    
+    message ServerToClient {
+        int32 tag1 = 1;
+        int32 rider_id = 2;
+        int64 world_time = 3;
+        int32 seqno = 4;
+        repeated PlayerState player_states = 8;
+        repeated UnknownMessage player_updates = 9;
+        int64 tag11 = 11;
+        int64 tag17 = 17;
+        int32 num_msgs = 18;
+        int32 msgnum = 19;
+    }
+    
+    message WorldAttributes {
+        int32 world_id = 1;
+        string name = 2;
+        int64 tag3 = 3;
+        int64 tag5 = 4;
+        int64 world_time = 6;
+        int64 clock_time = 7;
+    }
+    
+    message WorldAttribute {
+        int64 world_time = 2;
+    }
+    
+    message EventSubgroupProtobuf {
+        int32 id = 1;
+        string name = 2;
+        int32 rules = 8;
+        int32 route = 22;
+        int32 laps = 25;
+        int32 startLocation = 29;
+        int32 label = 30;
+        int32 paceType = 31;
+        int32 jerseyHash = 36;
+    }
+
+    `;
+export const root = protobuf.parse(proto, { keepCase: true }).root;
+
+const Status = root.lookup('PlayerState');
 
 class PlayerStateWrapper {
     constructor(state) {
@@ -103,6 +165,10 @@ class PlayerStateHandler {
     }
 }
 
-export default function riderStatus(buffer) {
-    return new Proxy(Status.decode(buffer), new PlayerStateHandler());
-};
+export function wrappedStatus(status) {
+    return new Proxy(status, new PlayerStateHandler());
+}
+
+export function riderStatus(buffer) {
+    return wrappedStatus(Status.decode(buffer));
+}
