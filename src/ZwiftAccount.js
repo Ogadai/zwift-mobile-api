@@ -1,56 +1,46 @@
-﻿import getAccessToken from './getAccessToken'
-import Profile from './Profile'
-import World from './World'
-import Request from './Request';
-import Activity from './Activity';
-import { root, wrappedStatus } from './riderStatus';
+﻿const getAccessToken = require('./getAccessToken')
+const Profile = require('./Profile')
+const World = require('./World')
+const Request = require('./Request')
+const Activity = require('./Activity')
 
-const TOKEN_REFRESH_MS = 10 * 60 * 1000;
+const TOKEN_REFRESH_MS = 10 * 60 * 1000
 
 class ZwiftAccount {
-
-    static getZwiftProtocolRoot() {
-        return root;
-    }
-
-    static wrappedStatus(status) {
-        return wrappedStatus(status);
-    }
-
     constructor(username, password) {
-        this.username = username;
-        this.password = password;
+        this.username = username
+        this.password = password
 
-        this.tokenPromise = null;
-        this.tokenDate = null;
+        this.tokenPromise = null
+        this.tokenDate = null
 
         this.getAccessToken = this.getAccessToken.bind(this)
     }
 
     getProfile(playerId) {
-        return new Profile(playerId, this.getAccessToken);
+        return new Profile(playerId, this.getAccessToken)
     }
 
     getWorld(worldId) {
-        return new World(worldId, this.getAccessToken);
+        return new World(worldId, this.getAccessToken)
     }
 
     getActivity(playerId) {
-      return new Activity(playerId, this.getAccessToken);
+      return new Activity(playerId, this.getAccessToken)
     }
 
     getRequest() {
-        return new Request(this.getAccessToken);
+        return new Request(this.getAccessToken)
     }
 
     getAccessToken() {
         if (!this.tokenPromise || (new Date().getTime() - this.tokenDate.getTime() > TOKEN_REFRESH_MS)) {
-            this.tokenDate = new Date();
-            this.tokenPromise = getAccessToken(this.username, this.password);
+            this.tokenDate = new Date()
+            this.tokenPromise = getAccessToken(this.username, this.password)
         }
 
-        return this.tokenPromise;
+        return this.tokenPromise
     }
 }
 
-export default ZwiftAccount;
+module.exports = ZwiftAccount

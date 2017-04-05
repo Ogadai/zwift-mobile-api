@@ -19,4 +19,4 @@
   }
 }
 
-export default maps;
+module.exports = maps
