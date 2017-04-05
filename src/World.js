@@ -36,6 +36,30 @@ class World {
                 })
             })
     }
+
+    sendRideOn(myId, theirId, firstName, lastName, countryCode) {
+        const data = {
+            f2: 1,
+            f3: 4,
+            attributeMessage: {
+                myId,
+                theirId,
+                firstName,
+                lastName,
+                countryCode
+            },
+            theirId,
+            f13: 60
+        }
+
+        // TODO: encode data into protobuf buffer
+
+        return this.request.post(
+            `/relay/worlds/${this.worldId}/attributes`,
+            data,
+            'application/x-protobuf-lite',
+            'arraybuffer')
+    }
 }
 
 module.exports = World
