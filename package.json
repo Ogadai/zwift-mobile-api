@@ -11,6 +11,9 @@
   "license": "MIT",
   "keywords": [],
   "main": "src/ZwiftAccount.js",
+  "engines": {
+    "node": ">=7.0.0"
+  },
   "dependencies": {
     "axios": "^0.15.3",
     "babel-runtime": "^6.11.6",
