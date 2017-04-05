@@ -89,3 +89,18 @@ message EventSubgroupProtobuf {
     int32 paceType = 31;
     int32 jerseyHash = 36;
 }
+
+message RiderAttributes {
+    int32 f2 = 2;
+    int32 f3 = 3;
+    message AttributeMessage {
+        int32 myId = 1;
+        int32 theirId = 2;
+        string firstName = 3;
+        string lastName = 4;
+        int32 countryCode = 5;
+    }
+    AttributeMessage attributeMessage = 4;
+    int32 theirId = 10;
+    int32 f13 = 13;
+}
