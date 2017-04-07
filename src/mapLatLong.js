@@ -16,7 +16,7 @@
     }),
     offset: {
       lat: 0,
-      long: 0
+      long: 282
     }
   },
   3: {
@@ -26,7 +26,7 @@
     }),
     offset: {
       lat: 0,
-      long: 0
+      long: 360
     }
   }
 }
