@@ -5,6 +5,7 @@ message PlayerState {
     int64 worldTime = 2;
     int32 distance = 3;
     int32 roadTime = 4;
+    int32 laps = 5;
     int32 speed = 6;
     int32 roadPosition = 8;
     int32 cadenceUHz = 9;
@@ -16,7 +17,7 @@ message PlayerState {
     int32 time = 16;
     int32 f19 = 19;
     int32 f20 = 20;
-    int32 f21 = 21;
+    int32 progress = 21;
     int64 customisationId = 22;
     int32 justWatching = 23;
     int32 calories = 24;
@@ -25,7 +26,7 @@ message PlayerState {
     float y = 27;
     int32 watchingRiderId = 28;
     int32 groupId = 29;
-    int64 f31 = 31;
+    int64 sport = 31;
 }
 
 message ClientToServer {

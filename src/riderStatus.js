@@ -12,6 +12,26 @@ class PlayerStateWrapper {
         return ((this.riderStatus.f20 & 0xff00) >> 8)
     }
 
+    get roadDirection() {
+        return ((this.riderStatus.f20 & 0xffff000000) >> 24)
+    }
+
+    get powerup() {
+        return (this.riderStatus.f20 & 0xf)
+    }
+
+    get hasFeatherBoost() {
+        return ((this.riderStatus.f20 & 0xf) == 0)
+    }
+
+    get hasDraftBoost() {
+        return ((this.riderStatus.f20 & 0xf) == 1)
+    }
+
+    get hasAeroBoost() {
+        return ((this.riderStatus.f20 & 0xf) == 5)
+    }
+
     get rideOns() {
         // eslint-disable-next-line no-bitwise
         return ((this.riderStatus.f19 >> 24) & 0xfff)
@@ -30,6 +50,20 @@ class PlayerStateWrapper {
     get cadence() {
         return Math.round((this.riderStatus.cadenceUHz * 60) / 1000000)
     }
+
+    get turnSignal() {
+        switch (this.riderStatus.f20 & 0x70) {
+          case 0x10:
+              return 'right'
+          case 0x20:
+              return 'left'
+          case 0x40:
+              return 'straight'
+          default:
+              return null
+        }
+    }
+
 }
 
 class PlayerStateHandler {
@@ -45,7 +79,6 @@ class PlayerStateHandler {
         }
         return this.wrapper[propKey]
     }
-
 
     ownKeys(target) {
         this.initialize(target)
