@@ -2,34 +2,15 @@ const zwiftProtobuf = require('./zwiftProtobuf')
 
 const Status = zwiftProtobuf.lookup('PlayerState')
 
+const TURN_SIGNALS = {
+    RIGHT: 'right',
+    LEFT: 'left',
+    STRAIGHT: 'straight'
+}
+
 class PlayerStateWrapper {
     constructor(state) {
         this.riderStatus = state
-    }
-
-    get roadID() {
-        // eslint-disable-next-line no-bitwise
-        return ((this.riderStatus.f20 & 0xff00) >> 8)
-    }
-
-    get roadDirection() {
-        return ((this.riderStatus.f20 & 0xffff000000) >> 24)
-    }
-
-    get powerup() {
-        return (this.riderStatus.f20 & 0xf)
-    }
-
-    get hasFeatherBoost() {
-        return ((this.riderStatus.f20 & 0xf) == 0)
-    }
-
-    get hasDraftBoost() {
-        return ((this.riderStatus.f20 & 0xf) == 1)
-    }
-
-    get hasAeroBoost() {
-        return ((this.riderStatus.f20 & 0xf) == 5)
     }
 
     get rideOns() {
@@ -47,21 +28,46 @@ class PlayerStateWrapper {
         return ((this.riderStatus.f19 & 8) !== 0)
     }
 
-    get cadence() {
-        return Math.round((this.riderStatus.cadenceUHz * 60) / 1000000)
+    get roadID() {
+        // eslint-disable-next-line no-bitwise
+        return ((this.riderStatus.f20 & 0xff00) >> 8)
+    }
+
+    get roadDirection() {
+        return ((this.riderStatus.f20 & 0xffff000000) >> 24)
     }
 
     get turnSignal() {
         switch (this.riderStatus.f20 & 0x70) {
           case 0x10:
-              return 'right'
+              return TURN_SIGNALS.RIGHT
           case 0x20:
-              return 'left'
+              return TURN_SIGNALS.LEFT
           case 0x40:
-              return 'straight'
+              return TURN_SIGNALS.STRAIGHT
           default:
               return null
         }
+    }
+
+    get powerup() {
+        return (this.riderStatus.f20 & 0xf)
+    }
+
+    get hasFeatherBoost() {
+        return (this.powerup === 0)
+    }
+
+    get hasDraftBoost() {
+        return (this.powerup === 1)
+    }
+
+    get hasAeroBoost() {
+        return (this.powerup === 5)
+    }
+
+    get cadence() {
+        return Math.round((this.riderStatus.cadenceUHz * 60) / 1000000)
     }
 
 }
@@ -114,5 +120,6 @@ function riderStatus(buffer) {
 
 module.exports = {
     wrappedStatus,
-    riderStatus
+    riderStatus,
+    TURN_SIGNALS
 }
