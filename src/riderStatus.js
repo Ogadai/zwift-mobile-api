@@ -41,7 +41,7 @@ class PlayerStateWrapper {
 
     get world() {
         //world defined in prefs.xml seems to be course - 2
-        return this.course() - 2
+        return this.course - 2
     }
 
     get roadID() {
