@@ -8,6 +8,12 @@ const TURN_SIGNALS = {
     STRAIGHT: 'straight'
 }
 
+const COURSES = {
+    WATOPIA: 3,
+    RICHMOND: 4,
+    LONDON: 5
+}
+
 class PlayerStateWrapper {
     constructor(state) {
         this.riderStatus = state
@@ -26,6 +32,16 @@ class PlayerStateWrapper {
     get isForward() {
         // eslint-disable-next-line no-bitwise
         return ((this.riderStatus.f19 & 8) !== 0)
+    }
+
+    get course() {
+        // eslint-disable-next-line no-bitwise
+        return ((this.riderStatus.f19 & 0xff0000) >> 16)
+    }
+
+    get world() {
+        //world defined in prefs.xml seems to be course - 2
+        return this.course() - 2
     }
 
     get roadID() {
@@ -121,5 +137,6 @@ function riderStatus(buffer) {
 module.exports = {
     wrappedStatus,
     riderStatus,
-    TURN_SIGNALS
+    TURN_SIGNALS,
+    COURSES
 }

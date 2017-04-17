@@ -48,7 +48,7 @@ class ZwiftAccount {
 
     getRefreshToken() {
         return this.getAccessToken().then(() => {
-            return this.refreshToken, this.refreshTokenExpiration
+            return this.refreshToken
         })
     }
 
@@ -61,7 +61,7 @@ class ZwiftAccount {
             this.refreshTokenExpiration  = now.getTime() + ((response.data.refresh_expires_in - 5) * 1000)
             this.refreshToken = response.data.refresh_token
             this.accessToken = response.data.access_token
-            return response.data.access_token, this.accessTokenExpiration
+            return response.data.access_token
         })
         return this.tokenPromise
     }
