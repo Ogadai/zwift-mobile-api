@@ -4,21 +4,20 @@ const World = require('./World')
 const Request = require('./Request')
 const Activity = require('./Activity')
 
-const TOKEN_REFRESH_MS = 10 * 60 * 1000
-
 class ZwiftAccount {
     constructor(username, password, refreshToken = null) {
         this.username = username
         this.password = password
 
         this.tokenPromise = null
-        this.tokenDate = null
 
+        this.accessToken = null
         this.refreshToken = refreshToken
         this.refreshTokenExpiration = 0
         this.accessTokenExpiration = 0
 
         this.getAccessToken = this.getAccessToken.bind(this)
+        this.getRefreshToken = this.getRefreshToken.bind(this)
     }
 
     getProfile(playerId) {
@@ -38,31 +37,28 @@ class ZwiftAccount {
     }
 
     getAccessToken() {
-        const now = new Date()
-        if (!this.tokenPromise || (now.getTime() > this.accessTokenExpiration)) {
-            this.getNewTokens()
-        }
-
-        return this.tokenPromise
+        return this.getTokenPromise()
+            .then(response => response.data.access_token)
     }
 
     getRefreshToken() {
-        return this.getAccessToken().then(() => {
-            return this.refreshToken
-        })
+        return this.getTokenPromise()
+            .then(response => response.data.refresh_token)
     }
 
-    getNewTokens() {
-        const now = new Date()
-        this.tokenDate = now
-        this.tokenPromise = getAccessToken(this.username, this.password, this.refreshToken).then((response) => {
-            const now = new Date()
-            this.accessTokenExpiration = now.getTime() + ((response.data.expires_in - 5) * 1000)
-            this.refreshTokenExpiration  = now.getTime() + ((response.data.refresh_expires_in - 5) * 1000)
-            this.refreshToken = response.data.refresh_token
-            this.accessToken = response.data.access_token
-            return response.data.access_token
-        })
+    getTokenPromise() {
+        if (!this.tokenPromise || (this.accessTokenExpiration && (new Date()).getTime() > this.accessTokenExpiration)) {
+            this.accessTokenExpiration = 0
+            this.tokenPromise = getAccessToken(this.username, this.password, this.refreshToken).then((response) => {
+                const now = new Date()
+                this.accessTokenExpiration = now.getTime() + ((response.data.expires_in - 5) * 1000)
+                this.refreshTokenExpiration  = now.getTime() + ((response.data.refresh_expires_in - 5) * 1000)
+                this.refreshToken = response.data.refresh_token
+                this.accessToken = response.data.access_token
+                return response
+            })
+        }
+        
         return this.tokenPromise
     }
 }
