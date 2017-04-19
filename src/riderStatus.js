@@ -26,12 +26,12 @@ class PlayerStateWrapper {
 
     get isTurning() {
         // eslint-disable-next-line no-bitwise
-        return ((this.riderStatus.f19 & 4) !== 0)
+        return ((this.riderStatus.f19 & 8) !== 0)
     }
 
     get isForward() {
         // eslint-disable-next-line no-bitwise
-        return ((this.riderStatus.f19 & 8) !== 0)
+        return ((this.riderStatus.f19 & 4) !== 0)
     }
 
     get course() {
