@@ -18,7 +18,7 @@
     "axios": "^0.15.3",
     "babel-runtime": "^6.11.6",
     "easy-fit": "0.0.6",
-    "protobufjs": "^6.6.0",
-    "qs": "^6.3.0"
+    "protobufjs": "^6.8.0",
+    "qs": "^6.5.0"
   }
 }
