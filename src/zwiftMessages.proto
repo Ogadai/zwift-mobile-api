@@ -54,7 +54,7 @@ message SegmentResult {
 
 message SegmentResults {
     int64 world_id = 1;
-    int64 segement_id = 2;
+    int64 segment_id = 2;
     int64 event_subgroup_id = 3;
     repeated SegmentResult segment_results = 4;
 }
