@@ -42,6 +42,23 @@ message ClientToServer {
     int64 last_player_update = 12;
 }
 
+message SegmentResult {
+    int64 id = 1;
+    int64 rider_id = 2;
+    int64 event_subgroup_id = 6;
+    string first_name = 7;
+    string last_name = 8;
+    string finish_time_str = 10;
+    int64 elapsed_ms = 11;
+}
+
+message SegmentResults {
+    int64 world_id = 1;
+    int64 segement_id = 2;
+    int64 event_subgroup_id = 3;
+    repeated SegmentResult segment_results = 4;
+}
+
 message UnknownMessage1 {
     // string firstName=7;
     // string lastName=8;
