@@ -58,6 +58,23 @@ world.riderStatus(playerId).then(status => {
     console.log(status); // JSON of rider status
 });
 
+// Get the results for an event subgroup.
+// Note that results returned by Zwift are not sorted, even though they
+// often come through as slowest first.
+world.segmentResults(eventSubgroupId).then(results => {
+    results.sort((a,b) => {
+        if (a.elapsedMs > b.elapsedMs) {
+            return 1;
+        } else if (a.elapsedMs == b.elapsedMs) {
+            return 0;
+        }
+        return -1;
+    })
+    for (let result of results) {
+        console.log(result);
+    }
+});
+
 // Get full position data for an activity from FIT file
 // (translated back into Zwift world coordinates)
 account.getActivity(playerId).get(activityId).then(activity => {
