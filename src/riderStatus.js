@@ -14,6 +14,13 @@ const COURSES = {
     LONDON: 5
 }
 
+const COURSE_TO_WORLD = {
+    3: 1,
+    4: 2,
+    5: 3,
+    6: 1
+}
+
 class PlayerStateWrapper {
     constructor(state) {
         this.riderStatus = state
@@ -41,7 +48,7 @@ class PlayerStateWrapper {
 
     get world() {
         //world defined in prefs.xml seems to be course - 2
-        return this.course - 2
+        return COURSE_TO_WORLD[this.course]
     }
 
     get roadID() {
