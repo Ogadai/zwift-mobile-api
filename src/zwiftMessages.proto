@@ -50,6 +50,10 @@ message SegmentResult {
     string last_name = 8;
     string finish_time_str = 10;
     int64 elapsed_ms = 11;
+    int32 powermeter = 12;
+    int32 weight = 13;
+    int32 power = 15;
+    int32 heartrate = 19;
 }
 
 message SegmentResults {
@@ -121,4 +125,29 @@ message RiderAttributes {
     AttributeMessage attributeMessage = 4;
     int32 theirId = 10;
     int32 f13 = 13;
+}
+
+message Profiles {
+    repeated Profile profiles = 1;
+}
+
+message Profile {
+	int32 id = 1;
+	string firstName = 4;
+	string lastName = 5;
+	int32 male = 6;
+	int32 weight = 9;
+	int32 bodyType = 12;
+	int32 countryCode = 34;
+	int32 totalDistance = 35;
+	int32 totalDistanceClimbed = 36;
+	int32 totalTimeInMinutes = 37;
+	int32 totalWattHours = 41;
+	int32 height = 42;
+	int32 totalExperiencePoints = 46;
+	int32 achievementLevel = 49;
+	int32 powerSource = 52;
+	int32 age = 55;
+	string launchedGameClient = 108;
+	int32 currentActivityId = 109;
 }

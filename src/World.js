@@ -52,7 +52,11 @@ class World {
                     firstName: segmentResult.first_name,
                     lastName: segmentResult.last_name,
                     finishTimeStr: segmentResult.finish_time_str,
-                    elapsedMs: segmentResult.elapsed_ms.toNumber()
+                    elapsedMs: segmentResult.elapsed_ms.toNumber(),
+                    weight: segmentResult.weight,
+                    power: segmentResult.power,
+                    heartrate: segmentResult.heartrate,
+                    powermeter: segmentResult.powermeter
                   })
               }
               return retval
