@@ -4,7 +4,9 @@ const protobuf = require('protobufjs')
 const Queue = require('./Queue')
 
 const DEFAULT_HEADERS = {
-    "User-Agent": "Zwift/115 CFNetwork/758.0.2 Darwin/15.0.0"
+    "Accept-Encoding": "gzip",
+    "User-Agent": "Zwift/115 CFNetwork/758.0.2 Darwin/15.0.0",
+    "Connection": "keep-alive"
 }
 
 const RATE_LIMIT = parseInt(process.env.ZwiftRateLimit || "5")
@@ -34,17 +36,17 @@ class Request {
     send(url, method, data, acceptType, responseType) {
         return _queue.add().then(() => {
             return this.tokenFn().then(token => {
-                return axios.get(url, {
-                    baseURL: 'https://us-or-rly101.zwift.com',
-                    headers: Object.assign({}, DEFAULT_HEADERS, {
-                        "Accept": acceptType,
-                        "Authorization": "Bearer " + token
-                    }),
-                    responseType
-                })
-                .then(function (response) {
-                    return response.data;
-                })
+                // return axios.get(url, {
+                //     baseURL: 'https://us-or-rly101.zwift.com',
+                //     headers: Object.assign({}, DEFAULT_HEADERS, {
+                //         "Accept": acceptType,
+                //         "Authorization": "Bearer " + token
+                //     }),
+                //     responseType
+                // })
+                // .then(function (response) {
+                //     return response.data;
+                // })
                 return axios(Object.assign(
                         { method, url, data },
                         this.config(acceptType, responseType, token)))

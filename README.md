@@ -11,13 +11,16 @@ A simple javascript library to make it a bit easier to call some of the Zwift AP
 $> npm install --save zwift-mobile-api
 ```
 
+## Login
+
 ```javascript
 var ZwiftAccount = require("zwift-mobile-api");
 var account = new ZwiftAccount(username, password);
+```
 
-// ****************************
-// Access profile related data
+## Rider Profiles
 
+```javascript
 // Get profile for "me"
 account.getProfile().profile().then(p => {
     console.log(p);  // JSON of rider profile (includes id property you can use below)
@@ -34,15 +37,11 @@ profile.followees().then(followees => {
     console.log(followees); // JSON array of rider's followees
 });
 
-// Get the list of previous activities 
-// (start, limit parameters for paging - e.g. (0,30) for first 30 activities)
-profile.activities(start, limit).then(activities => {
-    console.log(activities); // JSON array of activities
-});
+```
 
-// ****************************
-// Access world related data
+## List Riders
 
+```javascript
 // (note: currently all riders are listed in world '1',
 // so worlds 2 and 3 are empty no matter the schedule)
 
@@ -51,6 +50,15 @@ var world = account.getWorld(1);
 world.riders().then(riders => {
     console.log(riders); // JSON array of all riders currently riding
 });
+```
+
+## Rider Status
+
+```javascript
+// (note: currently all riders are listed in world '1',
+// so worlds 2 and 3 are empty no matter the schedule)
+
+var world = account.getWorld(1);
 
 // Get the status of the specified rider
 // (includes x,y position, speed, power, etc)
@@ -58,10 +66,40 @@ world.riderStatus(playerId).then(status => {
     console.log(status); // JSON of rider status
 });
 
+```
+
+## Events
+
+```javascript
+var event = account.getEvent();
+
+// Search for events
+// options:
+//   eventStartsAfter = earliest start time (milliseconds since 1970)
+//   eventStartsBefore = latest start time (milliseconds since 1970)
+const options = {
+    eventStartsAfter: Date.now() - 3600000,
+    eventStartsBefore: Date.now() + 600000
+};
+event.search(options).then(results => {
+    results.forEach(event => console.log(
+        `${event.id}: ${event.name} - sub groups `
+        + event.eventSubgroups.map(g => `${g.label}:${g.id}`)
+    ))
+});
+
+// Get riders who signed up to an event sub group
+// (get subGroupId from search() results)
+event.riders(subGroupId).then(riders =>
+    riders.forEach(r => console.log(
+        `${r.id} - ${r.firstName} ${r.lastName}`
+    ))
+);
+
 // Get the results for an event subgroup.
 // Note that results returned by Zwift are not sorted, even though they
 // often come through as slowest first.
-world.segmentResults(eventSubgroupId).then(results => {
+event.segmentResults(eventSubgroupId).then(results => {
     results.sort((a,b) => {
         if (a.elapsedMs > b.elapsedMs) {
             return 1;
@@ -73,6 +111,20 @@ world.segmentResults(eventSubgroupId).then(results => {
     for (let result of results) {
         console.log(result);
     }
+});
+
+```
+
+## Previous Activities
+
+```javascript
+// Get profile data for a particular rider (requires Zwift player id)
+var profile = account.getProfile(playerId);
+
+// Get the list of previous activities
+// (start, limit parameters for paging - e.g. (0,30) for first 30 activities)
+profile.activities(start, limit).then(activities => {
+    console.log(activities); // JSON array of activities
 });
 
 // Get full position data for an activity from FIT file
