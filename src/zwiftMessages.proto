@@ -151,3 +151,101 @@ message Profile {
 	string launchedGameClient = 108;
 	int32 currentActivityId = 109;
 }
+
+// ZML communication
+
+//  ZML server side
+
+message Vector3 {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+message PlayerInfo {
+    int32 id = 1;
+    int32 f2 = 2;
+    Vector3 position = 3;
+    string profile = 5;
+    int32 id2 = 6;
+    int32 f7 = 7;
+    string name = 11;
+    int32 countryCode = 12;
+    fixed32 worldTime = 13;
+    int32 f16 = 16;
+}
+
+message GTPC21_6_1 {
+    int32 seqno = 1;
+    repeated PlayerInfo playerInfos = 2;
+    int32 f3 = 3;
+}
+
+message GTPC21_6 {
+    repeated GTPC21_6_1 gtpc21_6_1 = 1;
+}
+
+message GTPC21_4 {
+    int32 f1 = 1;
+    string f6 = 6;
+    int32 f7 = 7;
+    int32 f8 = 8;
+}
+
+message GTPC21_8 {
+    int32 f1 = 1;
+    int32 f2 = 2;
+}
+
+message GTPC21 {
+    int32 f1 = 1;
+    GTPC21_4 gtpc21_4 = 4;
+    GTPC21_6 gtpc21_6 = 6;
+    GTPC21_8 gtpc21_8 = 8;
+}
+
+message GameToPhoneCommand {
+    int32 seqno = 1;
+    int32 f2 = 2;
+    GTPC21 gtpc21 = 21;
+}
+
+message GameToPhone {
+    int32 f1 = 1;
+    int32 f2 = 2;
+    int32 id = 3;
+    int32 f4 = 4;
+    int32 f6 = 6;
+    int32 f7 = 7;
+    repeated GameToPhoneCommand commands = 11;
+}
+
+//  ZML client side
+
+message ZMLClientInfo {
+    string appVersion = 1;
+    string systemOSVersion = 2;
+    string systemOS = 3;
+    string systemHardware = 4;
+}
+
+message ZMLClientCapabilities {
+    int32 f1 = 1;
+    ZMLClientInfo info = 5;
+}
+
+message PhoneToGameCommand {
+    int32 seqno = 1;
+    int32 command = 2;
+    int32 subject = 3;
+    int32 f5 = 5;
+    string f6 = 6;
+    int32 f7 = 7;
+    int32 playerId = 19;
+    ZMLClientCapabilities capabilities = 21;
+}
+
+message PhoneToGame {
+    int32 id = 1;
+    PhoneToGameCommand command = 2;
+    int32 f10 = 10;
+}

@@ -33,6 +33,7 @@ class Request {
         return this.send(url, 'post', data, acceptType, responseType)
     }
 
+
     send(url, method, data, acceptType, responseType) {
         return _queue.add().then(() => {
             return this.tokenFn().then(token => {
@@ -53,7 +54,7 @@ class Request {
                     .then(function (response) {
                         return response.data;
                     });
-            });
+            })
         });
     }
 
