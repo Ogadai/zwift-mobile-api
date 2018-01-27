@@ -3,6 +3,7 @@ const Profile = require('./Profile')
 const World = require('./World')
 const Request = require('./Request')
 const Activity = require('./Activity')
+const Event = require('./Event')
 
 class ZwiftAccount {
     constructor(username, password, refreshToken = null) {
@@ -32,6 +33,10 @@ class ZwiftAccount {
       return new Activity(playerId, this.getAccessToken)
     }
 
+    getEvent() {
+        return new Event(this.getAccessToken);
+    }
+
     getRequest() {
         return new Request(this.getAccessToken)
     }
@@ -58,7 +63,7 @@ class ZwiftAccount {
                 return response
             })
         }
-        
+
         return this.tokenPromise
     }
 }

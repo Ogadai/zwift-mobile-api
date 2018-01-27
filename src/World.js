@@ -40,6 +40,8 @@ class World {
     }
 
     segmentResults(eventSubgroupId) {
+        console.warn('*** DEPRECATED *** account.getWorld().segmentResults() is deprecated. Please use account.getEvent().segmentResults() instead');
+
         return this.request.protobuf(`/api/segment-results?world_id=0&segment_id=1&event_subgroup_id=${eventSubgroupId}&full=true&player_id=0`)
           .then(buffer => {
               const segmentResults = SegmentResults.decode(buffer);
