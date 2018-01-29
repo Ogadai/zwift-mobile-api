@@ -18,7 +18,8 @@ const COURSE_TO_WORLD = {
     3: 1,
     4: 2,
     5: 3,
-    6: 1
+    6: 1,
+    7: 3
 }
 
 class PlayerStateWrapper {
@@ -47,8 +48,10 @@ class PlayerStateWrapper {
     }
 
     get world() {
-        //world defined in prefs.xml seems to be course - 2
-        return COURSE_TO_WORLD[this.course]
+        if (this.course in COURSE_TO_WORLD) {
+          return COURSE_TO_WORLD[this.course]
+        }
+        return this.course
     }
 
     get roadID() {

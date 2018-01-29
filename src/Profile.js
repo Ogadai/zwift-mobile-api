@@ -1,5 +1,6 @@
 ﻿const Request = require('./Request')
 const zwiftProtobuf = require('./zwiftProtobuf')
+const ZwiftAppConnection = require('./ZwiftAppConnection')
 const Profiles = zwiftProtobuf.lookup('Profiles')
 
 class Profile {
@@ -130,6 +131,11 @@ class Profile {
     if (!this.id) {
       throw new Error('A player id is required - account.getProfile(playerId)')
     }
+  }
+
+  getAppConnection() {
+    this.checkId()
+    return new ZwiftAppConnection(this.request, this.id)
   }
 }
 
