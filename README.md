@@ -37,6 +37,10 @@ profile.followees().then(followees => {
     console.log(followees); // JSON array of rider's followees
 });
 
+// Give a RideOn (from 'playerId' to 'otherRiderId')
+// Can lookup 'activityId' from 'currentActivityId' of profile() response
+profile.giveRideOn(otherRiderId, activityId);
+
 ```
 
 ## List Riders

@@ -133,6 +133,14 @@ class Profile {
     }
   }
 
+  giveRideOn(riderId, activityId = 0) {
+    return this.request.post(`/api/profiles/${riderId}/activities/${activityId}/rideon`, {
+      id: 0,
+      activityId,
+      profileId: this.id
+    }, 'application/json', 'json');
+  }
+
   getAppConnection() {
     this.checkId()
     return new ZwiftAppConnection(this.request, this.id)
