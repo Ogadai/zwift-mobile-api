@@ -25,6 +25,9 @@ class Request {
         return this.request(url, 'application/x-protobuf-lite', 'arraybuffer')
     }
 
+    delete(url ) {
+        return this.send(url, 'delete', null,'application/json', 'json')
+    }
     request(url, acceptType, responseType) {
         return this.send(url, 'get', null, acceptType, responseType)
     }
