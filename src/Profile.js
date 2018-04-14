@@ -141,7 +141,7 @@ class Profile {
     }, 'application/json', 'json');
   }
 
-  getGoals() {
+  goals() {
     return this.request.json(`/api/profiles/${this.id}/goals`)
   }
 

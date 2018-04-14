@@ -42,8 +42,7 @@ profile.followees().then(followees => {
 profile.giveRideOn(otherRiderId, activityId);
 
 // Retrieve the goals you have
-goals = profile.getGoals();
-goals.then(goal=> {
+profile.goals().then(goal=> {
     console.log(goal); //JSON array of goals
 })
 
