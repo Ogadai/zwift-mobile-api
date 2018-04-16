@@ -141,6 +141,14 @@ class Profile {
     }, 'application/json', 'json');
   }
 
+  goals() {
+    return this.request.json(`/api/profiles/${this.id}/goals`)
+  }
+
+  deleteGoal(goal = 0) {
+    return this.request.delete(`/api/profiles/${this.id}/goals/${goal}`)
+  }
+
   getAppConnection() {
     this.checkId()
     return new ZwiftAppConnection(this.request, this.id)
