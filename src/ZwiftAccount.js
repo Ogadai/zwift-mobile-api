@@ -13,6 +13,7 @@ class ZwiftAccount {
         this.tokenPromise = null
 
         this.accessToken = null
+        this.suppliedRefreshToken = refreshToken;
         this.refreshToken = refreshToken
         this.refreshTokenExpiration = 0
         this.accessTokenExpiration = 0
@@ -41,7 +42,15 @@ class ZwiftAccount {
         return new Request(this.getAccessToken)
     }
 
-    getAccessToken() {
+    getAccessToken(resetTokens) {
+        if (resetTokens) {
+            this.accessToken = null
+            this.refreshToken = this.suppliedRefreshToken
+            this.refreshTokenExpiration = 0
+            this.accessTokenExpiration = 0
+            this.tokenPromise = null
+        }
+
         return this.getTokenPromise()
             .then(response => response.data.access_token)
     }
@@ -56,7 +65,8 @@ class ZwiftAccount {
             this.accessTokenExpiration = 0
             this.tokenPromise = getAccessToken(this.username, this.password, this.refreshToken).then((response) => {
                 const now = new Date()
-                this.accessTokenExpiration = now.getTime() + ((response.data.expires_in - 5) * 1000)
+                const expiresIn = Math.min(response.data.expires_in - 5, 30 * 60); // Limit to 30 minutes
+                this.accessTokenExpiration = now.getTime() + (expiresIn * 1000)
                 this.refreshTokenExpiration  = now.getTime() + ((response.data.refresh_expires_in - 5) * 1000)
                 this.refreshToken = response.data.refresh_token
                 this.accessToken = response.data.access_token

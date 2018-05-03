@@ -12,6 +12,8 @@ const DEFAULT_HEADERS = {
 const RATE_LIMIT = parseInt(process.env.ZwiftRateLimit || "5")
 const _queue = new Queue(RATE_LIMIT)
 
+let failureCount = 0;
+
 class Request {
     constructor(tokenFn) {
         this.tokenFn = tokenFn
@@ -39,24 +41,22 @@ class Request {
 
     send(url, method, data, acceptType, responseType) {
         return _queue.add().then(() => {
-            return this.tokenFn().then(token => {
-                // return axios.get(url, {
-                //     baseURL: 'https://us-or-rly101.zwift.com',
-                //     headers: Object.assign({}, DEFAULT_HEADERS, {
-                //         "Accept": acceptType,
-                //         "Authorization": "Bearer " + token
-                //     }),
-                //     responseType
-                // })
-                // .then(function (response) {
-                //     return response.data;
-                // })
+            const resetTokens = (failureCount > 10);
+            if (resetTokens) {
+                failureCount = 0;
+            }
+            return this.tokenFn(resetTokens).then(token => {
                 return axios(Object.assign(
                         { method, url, data },
                         this.config(acceptType, responseType, token)))
                     .then(function (response) {
+                        failureCount = 0;
                         return response.data;
-                    });
+                    })
+                    .catch(err => {
+                        failureCount += 1;
+                        throw err;
+                    })
             })
         });
     }
