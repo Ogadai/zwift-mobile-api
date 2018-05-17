@@ -15,8 +15,7 @@
     "node": ">=7.0.0"
   },
   "dependencies": {
-    "axios": "^0.15.3",
-    "babel-runtime": "^6.11.6",
+    "axios": "^0.18.0",
     "easy-fit": "0.0.6",
     "protobufjs": "^6.8.0",
     "qs": "^6.5.0"
