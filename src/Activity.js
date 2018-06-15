@@ -13,22 +13,25 @@ class Activity {
   }
 
   list() {
-    return this.request.json(`/api/profiles/${this.id}/activities`)
+    throw new Error('Activities are not supported by the developer API');
+    // return this.request.json(`/api/developer/profile/${this.id}/activities`)
   }
 
   get(activityId) {
-    return this.getActivity(activityId)
-      .then(activityData => {
-        const { fitFileBucket, fitFileKey } = activityData
+    throw new Error('Activities are not supported by the developer API');
+    // return this.getActivity(activityId)
+    //   .then(activityData => {
+    //     const { fitFileBucket, fitFileKey } = activityData
 
-        return this.downloadFitFile(fitFileBucket, fitFileKey)
-          .then(response => this.decodeFitFile(response.data))
-          .then(fitData => this.processFitData(activityData, fitData))
-      })
+    //     return this.downloadFitFile(fitFileBucket, fitFileKey)
+    //       .then(response => this.decodeFitFile(response.data))
+    //       .then(fitData => this.processFitData(activityData, fitData))
+    //   })
   }
 
   getActivity(activityId) {
-    return this.request.json(`/api/profiles/${this.id}/activities/${activityId}`)
+    throw new Error('Activities are not supported by the developer API');
+    // return this.request.json(`/api/developer/profile/${this.id}/activities/${activityId}`)
   }
 
   downloadFitFile(fitFileBucket, fitFileKey) {

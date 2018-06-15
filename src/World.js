@@ -1,7 +1,4 @@
 ﻿const Request = require('./Request')
-const { riderStatus } = require('./riderStatus')
-const zwiftProtobuf = require('./zwiftProtobuf')
-const SegmentResults = zwiftProtobuf.lookup('SegmentResults')
 
 class World {
     constructor(worldId, tokenFn) {
@@ -10,7 +7,7 @@ class World {
     }
 
     riders() {
-        return this.request.json(`/relay/worlds/${this.worldId}`)
+        return this.request.json(`/relay/developer/worlds/${this.worldId}`)
     }
 
     riderStatus(playerId) {
@@ -18,51 +15,11 @@ class World {
             throw new Error('A player id is required - world.riderStatus(playerId)')
         }
 
-        return this.request.protobuf(`/relay/worlds/${this.worldId}/players/${playerId}`)
-            .then(buffer => {
-                return new Promise((resolve, reject) => {
-                    try {
-                        const status = riderStatus(buffer)
-                        resolve(status)
-                    } catch(ex) {
-                        console.log(`Error decoding protobuf riderStatus - ${ex.message}`)
-                        console.log(ex)
-
-                        reject({
-                            response: {
-                                status: 500,
-                                statusText: ex.message
-                            }
-                        })
-                    }
-                })
-            })
+        return this.request.json(`/relay/developer/worlds/${this.worldId}/players/${playerId}`);
     }
 
-    segmentResults(eventSubgroupId) {
-        console.warn('*** DEPRECATED *** account.getWorld().segmentResults() is deprecated. Please use account.getEvent().segmentResults() instead');
-
-        return this.request.protobuf(`/api/segment-results?world_id=0&segment_id=1&event_subgroup_id=${eventSubgroupId}&full=true&player_id=0`)
-          .then(buffer => {
-              const segmentResults = SegmentResults.decode(buffer);
-              let retval = []
-              for (let segmentResult of segmentResults.segment_results) {
-                  retval.push({
-                    id: segmentResult.id.toNumber(),
-                    riderId: segmentResult.rider_id.toNumber(),
-                    eventSubgroupId: segmentResult.event_subgroup_id.toNumber(),
-                    firstName: segmentResult.first_name,
-                    lastName: segmentResult.last_name,
-                    finishTimeStr: segmentResult.finish_time_str,
-                    elapsedMs: segmentResult.elapsed_ms.toNumber(),
-                    weight: segmentResult.weight,
-                    power: segmentResult.power,
-                    heartrate: segmentResult.heartrate,
-                    powermeter: segmentResult.powermeter
-                  })
-              }
-              return retval
-          })
+    segmentResults() {
+        throw new Error('*** DEPRECATED *** account.getWorld().segmentResults() is not supported. Please use account.getEvent().segmentResults() instead');
     }
 }
 
