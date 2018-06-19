@@ -20,7 +20,7 @@ class Event {
 
   riders(eventSubGroup, { limit = MAX_RIDERS } = {}) {
     return this.request.json(
-      `/api/developer/event/subgroups/entrants/${eventSubGroup}?participation=signed_up&registered_before=0&start=0&limit=${limit}&type=all`
+      `/api/developer/event/subgroup/entrants/${eventSubGroup}?participation=signed_up&registered_before=0&start=0&limit=${limit}&type=all`
     )
   }
 
