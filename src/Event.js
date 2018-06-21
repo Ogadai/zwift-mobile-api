@@ -10,11 +10,12 @@ class Event {
 
   search({ eventStartsAfter, eventStartsBefore, limit = MAX_EVENTS } = {}) {
     const startTime = eventStartsAfter || Date.now()
+    const endTime = eventStartsBefore || Date.now()
     return this.request.post(
-      `/api/developer/event/search?use_subgroup_time=true&created_before=${startTime}&start=0&limit=${limit}`,
+      `/api/developer/event/search?use_subgroup_time=true&created_before=${endTime}&start=0&limit=${limit}`,
         {
           eventStartsAfter: startTime,
-          eventStartsBefore
+          eventStartsBefore: endTime
         }, 'application/json', 'json')
   }
 
