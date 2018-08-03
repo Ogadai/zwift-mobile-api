@@ -1,4 +1,11 @@
-﻿# zwift-mobile-api
+﻿# GDPR and Zwift's Developer API
+In July '08, this library was converted to use Zwift's new Developer API, in accordance with Zwift's policies.
+
+The Developer API requires a special developer account, and won't work with regular rider accounts like before.
+Currently, Zwift is not able to offer developer accounts to hobby developers, but I'm hoping they'll be able to at some point.
+You can contact Zwift at [developers@zwift.com](mailto:developers@zwift.com) to register interest and ask for further information.
+
+# zwift-mobile-api
 A simple javascript library to make it a bit easier to call some of the Zwift API endpoints
 
 * Automatically handle creating and renewing of a valid token (requires username and password to login with a valid Zwift account)
