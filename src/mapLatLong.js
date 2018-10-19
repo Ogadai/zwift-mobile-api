@@ -38,6 +38,16 @@
       lat: 0,
       long: 0
     }
+  },
+  8: {
+    toXY: (lat, long) => ({
+      x: Math.round((long - 359.8321) * 6940000),
+      y: -Math.round((lat - 51.50175) * 11130000)
+    }),
+    offset: {
+      lat: 0,
+      long: 360
+    }
   }
 }
 
