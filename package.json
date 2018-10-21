@@ -1,6 +1,6 @@
 {
   "name": "zwift-mobile-api",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "Libraries to simplify accessing the Zwift Mobile API",
   "homepage": "https://github.com/Ogadai/zwift-mobile-api",
   "repository": "https://github.com/Ogadai/zwift-mobile-api.git",
