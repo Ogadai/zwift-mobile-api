@@ -121,7 +121,7 @@ class Profile {
 
   followees() {
     this.checkId()
-    return this.request.json(`/api/developer/followees/${this.id}`)
+    return this.request.json(`/api/developer/followees/${this.id}?start=0&limit=1000`)
   }
 
   activities(start, limit) {
